@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Vehicle</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(90deg, #C8E6C9, #81C784);
+        color: #333;
+    }
+
+    .dashboard-container {
+        display: flex;
+        min-height: 100vh;
+    }
+
+ /* Sidebar Styles */
+        .sidebar {
+            background-color: #4CAF50; /* Green sidebar */
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            color: #eee;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #66BB6A;
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+
+    .logout-btn {
+        margin-top: auto;
+        padding: 10px 15px;
+        background-color: #81C784;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .logout-btn i {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+
+    .logout-btn:hover {
+        background-color: #66BB6A;
+    }
+
+    .form-container {
+        flex: 1;
+        padding: 40px;
+        background-color: #f9fbe7;
+    }
+
+    h2, h3 {
+        color: #388E3C;
+        margin-bottom: 20px;
+    }
+
+    form label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    form input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    form button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #e53935;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    form button:hover {
+        background-color: #c62828;
+    }
+
+    a {
+        color: #388E3C;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #2e7d32;
+        text-decoration: none; /* <-- underline removed */
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <h2>Owner Dashboard</h2>
+    <ul class="sidebar-nav">
+      <li><a href="/Owner"><i class="fas fa-car"></i> My Vehicles</a></li>
+      <li><a href="/AddnewVehicle"><i class="fas fa-handshake"></i> Add New Vehicle</a></li>
+      <li><a href="/DeletenewVehicle"><i class="fas fa-handshake"></i> Delete New Vehicle</a></li>
+      <li><a href="/MyBookings"><i class="fas fa-calendar-alt"></i> My Bookings</a></li>
+    </ul>
+    <a href="/Home" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </aside>
+
+  <div class="form-container">
+
+    <form th:action="@{/DeletenewVehicle}" method="post" th:object="${vehicle}">
+      <label for="vehicleType">Vehicle Type:</label>
+      <input type="text" id="vehicleType" th:field="*{vehicleType}" required />
+
+      <label for="vehiclebrand">Vehicle Brand:</label>
+      <input type="text" id="vehiclebrand" th:field="*{brand}" required />
+
+      <label for="vehiclemodel">Vehicle Model:</label>
+      <input type="text" id="vehiclemodel" th:field="*{model}" required />
+
+      <button type="submit">Delete Vehicle</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

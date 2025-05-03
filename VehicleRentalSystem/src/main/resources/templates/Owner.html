@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Raleway, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(90deg, #C8E6C9, #81C784); /* A softer green gradient */
+            color: #333;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: #4CAF50; /* Green sidebar */
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            color: #eee;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #66BB6A;
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            padding: 10px 15px;
+            background-color: #81C784;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .logout-btn i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .logout-btn:hover {
+            background-color: #66BB6A;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: #f9fbe7; /* Light yellow-green */
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #c8e6c9;
+        }
+
+        .dashboard-header h1 {
+            color: #388E3C; /* Darker green */
+        }
+
+        .user-info {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .section-title {
+            color: #388E3C;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #c8e6c9;
+            padding-bottom: 5px;
+        }
+
+        /* Vehicle List Styles */
+        .vehicle-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .vehicle-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .vehicle-details {
+            padding: 15px;
+        }
+
+        .vehicle-details h3 {
+            margin-top: 0;
+            color: #388E3C;
+        }
+
+        .vehicle-details p {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .vehicle-availability {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .vehicle-unavailable {
+            color: #f44336;
+        }
+
+        /* Rental Requests Styles */
+        .rental-request-item {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .request-info {
+            flex-grow: 1;
+        }
+
+        .request-actions button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .request-actions button:hover {
+            background-color: #45a049;
+        }
+
+        .request-actions .reject {
+            background-color: #f44336;
+        }
+
+        .request-actions .reject:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Bookings List Styles */
+        .booking-item {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-info {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .booking-info strong {
+            color: #388E3C;
+        }
+
+        /* Utility Classes for Icons */
+        .icon-sm { font-size: 0.8em; margin-right: 5px; }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <h2>Owner Dashboard</h2>
+        <ul class="sidebar-nav">
+            <li><a href="/Owner"><i class="fas fa-car"></i> My Vehicles</a></li>
+            <li><a href="/AddnewVehicle"><i class="fas fa-handshake"></i> Add New Vehicle</a></li>
+            <li><a href="/DeletenewVehicle"><i class="fas fa-handshake"></i> Delete New Vehicle</a></li>
+            <li><a href="/MyBookings"><i class="fas fa-calendar-alt"></i> My Bookings</a></li>
+        </ul>
+        <a href="/Home" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>Owner Area</h1>
+            <div class="user-info">Welcome, <span th:text="${username}">User</span></div>
+        </div>
+
+        <section>
+            <h2 class="section-title">My Listed Vehicles</h2>
+            <div class="vehicle-list">
+                <div th:each="vehicle : ${vehicles}" class="vehicle-card">
+                    <div class="vehicle-details">
+                       <p>Type: <h3 th:text="${vehicle.vehicleType}">Type</h3><br></p>
+                        <p>Brand: <h3 th:text="${vehicle.brand}">brand</h3><br></p>
+                    <p>Model: <h3 th:text="${vehicle.model}">model</h3><br></p>
+                       <p>Price: <h3 th:text="${vehicle.pricePerDay}">price</h3><br></p>
+                       <p>Availability: <h3 th:class="${vehicle.availability ? 'vehicle-availability' : 'vehicle-unavailable'}"
+                                  th:text="${vehicle.availability ? 'Available' : 'Not Available'}"></span></p>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

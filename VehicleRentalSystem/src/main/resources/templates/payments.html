@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Bank Details</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Raleway, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(90deg, #FCEABB, #F8B500);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #FFD700;
+            color: #333;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #ffe066;
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            padding: 10px 15px;
+            background-color: #FFA500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff9900;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background-color: #fff8dc;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #DAA520;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #FFD700;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #fffacd;
+        }
+
+        .view-link {
+            color: #DAA520;
+            text-decoration: underline;
+            font-size: 0.9em;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>User Panel</h2>
+        <ul class="sidebar-nav">
+            <li><a href="/User"><i class="fas fa-user"></i> My Profile</a></li>
+            <li><a href="/browsevehicle"><i class="fas fa-car"></i> Browse Vehicles</a></li>
+            <li><a href="/bookinghistory"><i class="fas fa-history"></i> Booking History</a></li>
+            <li><a href="/payments"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+        </ul>
+        <a href="/Home" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </aside>
+
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Bank Payment Detail</h1>
+            <table>
+                <thead>
+                <tr>
+                    <th>Account Holder Name</th>
+                    <th>Account Number</th>
+                    <th>Branch</th>
+                    <th>IFSC Code</th>
+                    <th>Account Type</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Admin</td>
+                    <td>123456789012</td>
+                    <td>SBI Branch</td>
+                    <td>SBIN0001234</td>
+                    <td>Savings</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

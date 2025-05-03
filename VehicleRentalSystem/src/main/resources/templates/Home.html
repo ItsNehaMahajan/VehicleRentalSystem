@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Vehicle Rental System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333; /* Darker default text for elegance */
+            line-height: 1.6; /* Improved readability */
+        }
+
+        .hero {
+            background: url('/images/Car.jpeg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            image-rendering: auto;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5); /* Slightly darker overlay */
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem; /* Larger, more impactful title */
+            font-weight: 600; /* Semi-bold for elegance */
+            margin-bottom: 15px;
+            letter-spacing: -0.05em; /* Subtle kerning */
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            font-weight: 300; /* Lighter weight for subheading */
+            margin-bottom: 30px;
+        }
+
+        .features {
+            padding: 60px 0; /* Increased padding for more breathing room */
+            background-color: #fff; /* Clean background */
+        }
+
+        .features .card {
+            border: 1px solid #e9ecef; /* Subtle border */
+            border-radius: 12px; /* Slightly less rounded */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+        }
+
+        .features .card:hover {
+            transform: translateY(-5px); /* Less aggressive hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Enhanced hover shadow */
+        }
+
+        .feature-img {
+            max-height: 80px; /* Slightly smaller icons */
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: opacity(0.8); /* Subtle icon transparency */
+        }
+
+        .features .card h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #495057; /* Darker heading */
+            margin-bottom: 10px;
+        }
+
+        .features .card p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        #vehicles {
+            padding: 60px 0;
+            background-color: #f8f9fa; /* Consistent background */
+        }
+
+        #vehicles h2 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .vehicle-card {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .vehicle-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .vehicle-img {
+            height: 220px; /* Slightly taller image */
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .vehicle-card .card-body {
+            padding: 20px;
+        }
+
+        .vehicle-card .card-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-card .card-text {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .vehicle-card .text-primary {
+            font-weight: 500;
+            color: #007bff !important; /* Keep primary color */
+        }
+
+        .vehicle-card .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .vehicle-card .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        footer {
+            background: #1c1f23;
+            color: #ddd; /* Lighter footer text */
+            padding: 40px 0; /* Increased padding */
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #868e96; /* Muted link color */
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer, wider shadow */
+        }
+
+        .navbar .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white !important;
+        }
+
+        .navbar .nav-link {
+            padding: 10px 15px; /* Slightly more padding */
+            color: rgba(255, 255, 255, 0.8) !important; /* Less intense white */
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: white !important;
+        }
+
+        .navbar .dropdown-toggle::after {
+            display: none; /* Keep dropdown arrow hidden */
+        }
+
+        .navbar .nav-item.dropdown .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px); /* Subtle slide-in */
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+
+        .navbar .nav-item.dropdown .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar .nav-item.dropdown .dropdown-item {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar .nav-item.dropdown .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-weight: 500;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">VehicleRental</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white"
+                       href="#"
+                       id="loginDropdown"
+                       role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Login
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="loginDropdown">
+                        <li><a class="dropdown-item" href="/login">Admin</a></li>
+                        <li><a class="dropdown-item" href="/loginforUser">User</a></li>
+                        <li><a class="dropdown-item" href="/loginforOwner">Owner</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <h1 class="fw-bold">Rent Your Ride in Minutes</h1>
+        <p class="lead">Discover a wide selection of vehicles for every journey.</p>
+        <a href="#vehicles" class="btn btn-primary btn-lg mt-3">Explore Vehicles</a>
+    </div>
+</section>
+
+<section class="features py-5">
+    <div class="container text-center">
+        <h2 class="mb-4 fw-semibold">Why Choose Us?</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card p-4 h-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1048/1048314.png" alt="Easy Booking" class="feature-img mb-3 mx-auto" style="filter: opacity(0.8);" />
+                    <h4 class="fw-semibold">Easy Booking</h4>
+                    <p>Our intuitive platform makes renting a vehicle quick and hassle-free.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 h-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Affordable Rates" class="feature-img mb-3 mx-auto" style="filter: opacity(0.8);" />
+                    <h4 class="fw-semibold">Affordable Rates</h4>
+                    <p>Enjoy competitive pricing and transparent costs without any hidden fees.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 h-100">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" alt="24/7 Support" class="feature-img mb-3 mx-auto" style="filter: opacity(0.8);" />
+                    <h4 class="fw-semibold">24/7 Support</h4>
+                    <p>Get assistance whenever you need it with our dedicated support team.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="vehicles" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4 fw-semibold">Explore Our Vehicles</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm vehicle-card">
+                    <img src="/images/Car1.webp" class="card-img-top vehicle-img" alt="Honda Civic" />
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Honda Civic</h5>
+                        <p class="card-text text-muted">Comfortable 5-seater sedan, ideal for city commutes.</p>
+                        <p class="text-primary fw-semibold">₹1000/day</p>
+                        <a href="#" class="btn btn-outline-primary w-100">Rent Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm vehicle-card">
+                    <img src="/images/bike.jpeg" class="card-img-top vehicle-img" alt="Royal Enfield" />
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Royal Enfield Classic 350</h5>
+                        <p class="card-text text-muted">Experience the thrill of the ride with this iconic bike.</p>
+                        <p class="text-primary fw-semibold">₹700/day</p>
+                        <a href="#" class="btn btn-outline-primary w-100">Rent Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm vehicle-card">
+                    <img src="/images/Scooty.jpeg" class="card-img-top vehicle-img" alt="Activa 6G" />
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Honda Activa 6G</h5>
+                        <p class="card-text text-muted">A convenient and economical scooter for your daily needs.</p>
+                        <p class="text-primary fw-semibold">₹400/day</p>
+                        <a href="#" class="btn btn-outline-primary w-100">Rent Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="text-center py-4">
+    <div class="container">
+        <p class="mb-2">© 2025 VehicleRental. All rights reserved.</p>
+        <div>
+            <a href="#" class="text-muted me-3">Contact Us</a>
+            <a href="#" class="text-muted me-3">Privacy Policy</a>
+            <a href="#" class="text-muted">Terms & Conditions</a>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

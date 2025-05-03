@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Raleway, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(90deg, #FCEABB, #F8B500);
+            color: #333;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #FFD700;
+            color: #333;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #ffe066;
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            padding: 10px 15px;
+            background-color: #FFA500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff9900;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: #fff8dc;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .dashboard-header h1 {
+            color: #444;
+        }
+
+        .user-info {
+            font-weight: bold;
+            color: #DAA520;
+        }
+
+        .section-title {
+            color: #DAA520;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #FFD700;
+            color: #333;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fdf5e6;
+        }
+
+        tbody tr:hover {
+            background-color: #fffacd;
+        }
+
+        a.view-link {
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #DAA520;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <h2>User Panel</h2>
+        <ul class="sidebar-nav">
+            <li><a href="/User"><i class="fas fa-user"></i> My Profile</a></li>
+            <li><a href="/browsevehicle"><i class="fas fa-car"></i> Browse Vehicles</a></li>
+            <li><a href="/bookinghistory"><i class="fas fa-history"></i> Booking History</a></li>
+            <li><a href="/payments"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+        </ul>
+        <a href="/Home" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>User Dashboard</h1>
+            <div class="user-info">Welcome, <span th:text="${username}">User</span></div>
+        </div>
+
+        <section style="display: block;">
+            <h2 class="section-title">Vehicles</h2>
+
+            <p th:if="${vehicles == null}">Vehicles list is null.</p>
+            <p th:if="${vehicles != null and #lists.isEmpty(vehicles)}">No vehicles available.</p>
+
+            <table th:if="${vehicles != null and !#lists.isEmpty(vehicles)}">
+                <thead>
+                <tr>
+                    <th>Vehicle ID</th>
+                    <th>Owner Name</th>
+                    <th>Type</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Price/Day</th>
+                    <th>Location</th>
+                    <th>Available</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehicle : ${vehicles}">
+                    <form th:action="@{/book}" method="post" th:object="${book}">
+                        <td>
+                            <span th:text="${vehicle.vehicleId}"></span>
+                            <input type="hidden" name="vehicleId" th:value="${vehicle.vehicleId}" />
+                        </td>
+                        <td>
+                            <span th:text="${vehicle.owner.name}"></span>
+                            <input type="hidden" name="ownerName" th:value="${vehicle.owner.name}" />
+                        </td>
+                        <td>
+                            <span th:text="${vehicle.vehicleType}"></span>
+                            <input type="hidden" name="vehicleType" th:value="${vehicle.vehicleType}" />
+                        </td>
+                        <td>
+                            <span th:text="${vehicle.brand}"></span>
+                            <input type="hidden" name="brand" th:value="${vehicle.brand}" />
+                        </td>
+                        <td>
+                            <span th:text="${vehicle.model}"></span>
+                            <input type="hidden" name="model" th:value="${vehicle.model}" />
+                        </td>
+                        <td>
+                            <span th:text="${vehicle.pricePerDay}"></span>
+                            <input type="hidden" name="pricePerDay" th:value="${vehicle.pricePerDay}" />
+                        </td>
+                        <td>
+                            <span th:text="${vehicle.location}"></span>
+                            <input type="hidden" name="location" th:value="${vehicle.location}" />
+                        </td>
+                        <td th:text="${vehicle.availability ? 'Yes' : 'No'}"></td>
+                        <td>
+                            <input type="date" name="bookingDate" required />
+                        </td>
+                        <td>
+                            <button type="submit"
+                                    th:disabled="${!vehicle.availability}"
+                                    th:text="${vehicle.availability ? 'Reserve' : 'Unavailable'}">
+                            </button>
+                        </td>
+                    </form>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </section>
+
+
+    </main>
+</div>
+
+</body>
+</html>
